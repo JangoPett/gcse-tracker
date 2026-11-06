@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GCSE Topic & Revision Tracker</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --border: #e2e8f0;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --green: #10b981;
+      --accent: #2563eb;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Controls & Selector */
+    .controls-card {
+      background: var(--card-bg);
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .select-wrapper label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-right: 8px;
+    }
+
+    select {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .action-btn {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .action-btn:hover {
+      background: #f1f5f9;
+    }
+
+    /* Progress Dashboard */
+    .dashboard {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .dashboard h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .progress-bar-bg {
+      background: #e2e8f0;
+      height: 12px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progress-bar-fill {
+      background: var(--green);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Topic Cards */
+    .section-title {
+      font-size: 1.15rem;
+      margin: 24px 0 12px 0;
+      color: #334155;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 6px;
+    }
+
+    .topic-card {
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 580px) {
+      .topic-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .topic-info {
+      flex: 1;
+    }
+
+    .topic-code {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .topic-title {
+      font-weight: 500;
+    }
+
+    /* Resource Paper Tags */
+    .paper-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .paper-chip {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      background: #eff6ff;
+      color: var(--accent);
+      border: 1px solid #bfdbfe;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .paper-chip:hover {
+      background: #dbeafe;
+    }
+
+    /* RAG Rating Buttons */
+    .rag-group {
+      display: flex;
+      gap: 8px;
+      align-self: flex-start;
+    }
+
+    @media (min-width: 580px) {
+      .rag-group {
+        align-self: center;
+      }
+    }
+
+    .rag-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.85rem;
+      transition: transform 0.1s ease, opacity 0.2s ease;
+      opacity: 0.35;
+    }
+
+    .rag-btn:active { transform: scale(0.9); }
+    .rag-btn.active { opacity: 1; transform: scale(1.1); border-color: #0f172a; }
+
+    .btn-r { background: var(--red); color: white; }
+    .btn-a { background: var(--amber); color: white; }
+    .btn-g { background: var(--green); color: white; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Navigation & Subject Selector -->
+    <div class="controls-card">
+      <div class="select-wrapper">
+        <label for="subject-select">Subject:</label>
+        <select id="subject-select" onchange="changeSubject(this.value)">
+          <option value="chemistry_8462">GCSE Chemistry (AQA 8462)</option>
+          <option value="history_8145">GCSE History (AQA 8145)</option>
+        </select>
+      </div>
+
+      <div>
+        <button class="action-btn" onclick="exportProgress()">Export Progress</button>
+        <button class="action-btn" onclick="importProgress()">Import Progress</button>
+      </div>
+    </div>
+
+    <!-- Overall Progress Dashboard -->
+    <header class="dashboard">
+      <div class="dashboard-header">
+        <h2 id="subject-heading">GCSE Topic Progress</h2>
+        <div>
+          <span id="stats-text" style="font-size: 0.9rem; color: #64748b;">0 of 0 Mastered</span>
+          <span id="stats-pct" style="font-weight: bold; margin-left: 8px; color: var(--green);">0%</span>
+        </div>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Content List -->
+    <main id="tracker-root"></main>
+  </div>
+
+  <script>
+    // Embedded sample fallback dataset (used if fetching external JSON is pending)
+    const datasets = {
+      chemistry_8462: {
+        title: "GCSE Chemistry (AQA 8462)",
+        sections: [
+          {
+            section: "Paper 1: Atomic Structure, Bonding & Quantitative Chemistry",
+            topics: [
+              {
+                id: "chem_1.1",
+                code: "4.1.1",
+                title: "A Atoms, Elements & Compounds",
+                papers: [
+                  { label: "Jun 22 P1", url: "./pdfs/AQA-84621H-QP-JUN22.PDF" },
+                  { label: "Nov 20 P1", url: "./pdfs/AQA-84621H-QP-NOV20.PDF" }
+                ]
+              },
+              {
+                id: "chem_1.2",
+                code: "4.2.1",
+                title: "Chemical Bonding & States of Matter",
+                papers: [
+                  { label: "Jun 24 P1", url: "./pdfs/AQA-84621H-QP-JUN24.PDF" }
+                ]
+              }
+            ]
+          },
+          {
+            section: "Paper 2: Rates, Organic Chemistry & Chemical Analysis",
+            topics: [
+              {
+                id: "chem_2.1",
+                code: "4.7.1",
+                title: "Carbon Compounds & Hydrocarbons",
+                papers: [
+                  { label: "Jun 22 P2", url: "./pdfs/AQA-84622H-QP-JUN22.PDF" },
+                  { label: "Nov 21 P2", url: "./pdfs/AQA-84622H-QP-NOV21.PDF" }
+                ]
+              },
+              {
+                id: "chem_2.2",
+                code: "4.8.1",
+                title: "Purity, Formulations & Chromatography",
+                papers: [
+                  { label: "Jun 23 P2", url: "./pdfs/AQA-84622H-QP-JUN23.PDF" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      history_8145: {
+        title: "GCSE History (AQA 8145)",
+        sections: [
+          {
+            section: "Paper 1: Understanding the Modern World",
+            topics: [
+              {
+                id: "his_1.1",
+                code: "1.1",
+                title: "Germany and the Growth of Democracy (1890–1914)",
+                papers: []
+              }
+            ]
+          }
+        ]
+      }
+    };
+
+    let currentSubjectKey = "chemistry_8462";
+    let userState = JSON.parse(localStorage.getItem('gcse_rag_state')) || {};
+
+    // Render topics for selected subject
+    function renderApp() {
+      const subjectData = datasets[currentSubjectKey];
+      document.getElementById('subject-heading').innerText = subjectData.title;
+
+      const root = document.getElementById('tracker-root');
+      root.innerHTML = '';
+
+      let totalTopics = 0;
+      let greenCount = 0;
+
+      subjectData.sections.forEach(sec => {
+        const secTitle = document.createElement('h3');
+        secTitle.className = 'section-title';
+        secTitle.innerText = sec.section;
+        root.appendChild(secTitle);
+
+        sec.topics.forEach(topic => {
+          totalTopics++;
+          const rating = userState[topic.id] || 'U';
+          if (rating === 'G') greenCount++;
+
+          const card = document.createElement('div');
+          card.className = 'topic-card';
+
+          // Build PDF Chips
+          let paperChipsHtml = '';
+          if (topic.papers && topic.papers.length > 0) {
+            paperChipsHtml = '<div class="paper-links">' + 
+              topic.papers.map(p => `<a href="${p.url}" target="_blank" class="paper-chip">📄 ${p.label}</a>`).join('') +
+              '</div>';
+          }
+
+          card.innerHTML = `
+            <div class="topic-info">
+              <div>
+                <span class="topic-code">${topic.code}</span>
+                <span class="topic-title">${topic.title}</span>
+              </div>
+              ${paperChipsHtml}
+            </div>
+            <div class="rag-group">
+              <button class="rag-btn btn-r ${rating === 'R' ? 'active' : ''}" onclick="setRating('${topic.id}', 'R')">R</button>
+              <button class="rag-btn btn-a ${rating === 'A' ? 'active' : ''}" onclick="setRating('${topic.id}', 'A')">A</button>
+              <button class="rag-btn btn-g ${rating === 'G' ? 'active' : ''}" onclick="setRating('${topic.id}', 'G')">G</button>
+            </div>
+          `;
+          root.appendChild(card);
+        });
+      });
+
+      // Update Header Progress
+      const pct = totalTopics > 0 ? Math.round((greenCount / totalTopics) * 100) : 0;
+      document.getElementById('stats-text').innerText = `${greenCount} of ${totalTopics} Mastered`;
+      document.getElementById('stats-pct').innerText = `${pct}%`;
+      document.getElementById('progress-fill').style.width = `${pct}%`;
+    }
+
+    // Set or toggle RAG status
+    function setRating(topicId, rating) {
+      if (userState[topicId] === rating) {
+        delete userState[topicId];
+      } else {
+        userState[topicId] = rating;
+      }
+      localStorage.setItem('gcse_rag_state', JSON.stringify(userState));
+      renderApp();
+    }
+
+    // Change subject selection
+    function changeSubject(key) {
+      currentSubjectKey = key;
+      renderApp();
+    }
+
+    // Export progress to JSON file
+    function exportProgress() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userState, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "gcse_progress_backup.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    // Import progress from JSON file
+    function importProgress() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onload = readerEvent => {
+          try {
+            const importedState = JSON.parse(readerEvent.target.result);
+            userState = importedState;
+            localStorage.setItem('gcse_rag_state', JSON.stringify(userState));
+            renderApp();
+            alert('Progress imported successfully!');
+          } catch (err) {
+            alert('Invalid JSON file format.');
+          }
+        };
+      };
+      input.click();
+    }
+
+    // Initial load
+    renderApp();
+  </script>
+</body>
+</html>
