@@ -9,11 +9,21 @@
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text: #0f172a;
+      --text-muted: #64748b;
       --border: #e2e8f0;
       --red: #ef4444;
       --amber: #f59e0b;
       --green: #10b981;
       --accent: #2563eb;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --accent: #60a5fa;
     }
 
     body {
@@ -22,14 +32,14 @@
       color: var(--text);
       margin: 0;
       padding: 16px;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 840px;
       margin: 0 auto;
     }
 
-    /* Controls & Selector */
     .controls-card {
       background: var(--card-bg);
       padding: 16px 20px;
@@ -54,16 +64,23 @@
       padding: 8px 12px;
       border-radius: 6px;
       border: 1px solid var(--border);
-      background: #fff;
+      background: var(--card-bg);
+      color: var(--text);
       font-size: 0.95rem;
       cursor: pointer;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
     }
 
     .action-btn {
       padding: 8px 14px;
       border-radius: 6px;
       border: 1px solid var(--border);
-      background: #fff;
+      background: var(--card-bg);
+      color: var(--text);
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
@@ -71,10 +88,9 @@
     }
 
     .action-btn:hover {
-      background: #f1f5f9;
+      background: var(--border);
     }
 
-    /* Progress Dashboard */
     .dashboard {
       background: var(--card-bg);
       padding: 20px;
@@ -96,7 +112,7 @@
     }
 
     .progress-bar-bg {
-      background: #e2e8f0;
+      background: var(--border);
       height: 12px;
       border-radius: 6px;
       overflow: hidden;
@@ -110,21 +126,26 @@
       transition: width 0.3s ease;
     }
 
-    /* Topic Cards */
+    .paper-header {
+      font-size: 1.3rem;
+      margin: 32px 0 16px 0;
+      color: var(--text);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 4px;
+    }
+
     .section-title {
-      font-size: 1.15rem;
-      margin: 24px 0 12px 0;
-      color: #334155;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 6px;
+      font-size: 1.05rem;
+      margin: 20px 0 10px 0;
+      color: var(--text-muted);
     }
 
     .topic-card {
       background: var(--card-bg);
-      padding: 16px;
+      padding: 14px 16px;
       border-radius: 8px;
       border: 1px solid var(--border);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -138,47 +159,18 @@
       }
     }
 
-    .topic-info {
-      flex: 1;
-    }
+    .topic-info { flex: 1; }
 
     .topic-code {
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--accent);
       display: inline-block;
-      margin-right: 6px;
+      margin-right: 8px;
     }
 
-    .topic-title {
-      font-weight: 500;
-    }
+    .topic-title { font-weight: 500; }
 
-    /* Resource Paper Tags */
-    .paper-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .paper-chip {
-      display: inline-block;
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      background: #eff6ff;
-      color: var(--accent);
-      border: 1px solid #bfdbfe;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .paper-chip:hover {
-      background: #dbeafe;
-    }
-
-    /* RAG Rating Buttons */
     .rag-group {
       display: flex;
       gap: 8px;
@@ -186,14 +178,12 @@
     }
 
     @media (min-width: 580px) {
-      .rag-group {
-        align-self: center;
-      }
+      .rag-group { align-self: center; }
     }
 
     .rag-btn {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: 2px solid transparent;
       cursor: pointer;
@@ -204,7 +194,7 @@
     }
 
     .rag-btn:active { transform: scale(0.9); }
-    .rag-btn.active { opacity: 1; transform: scale(1.1); border-color: #0f172a; }
+    .rag-btn.active { opacity: 1; transform: scale(1.1); border-color: var(--text); }
 
     .btn-r { background: var(--red); color: white; }
     .btn-a { background: var(--amber); color: white; }
@@ -214,28 +204,38 @@
 <body>
 
   <div class="container">
-    <!-- Navigation & Subject Selector -->
+    <!-- Controls Header -->
     <div class="controls-card">
       <div class="select-wrapper">
         <label for="subject-select">Subject:</label>
         <select id="subject-select" onchange="changeSubject(this.value)">
-          <option value="chemistry_8462">GCSE Chemistry (AQA 8462)</option>
-          <option value="history_8145">GCSE History (AQA 8145)</option>
+          <optgroup label="History">
+            <option value="his_paper1">History Paper 1: Crime and Punishment (c1000–present)</option>
+            <option value="his_paper2a">History Paper 2A: Early Elizabethan England (1558–88)</option>
+            <option value="his_paper2b">History Paper 2B: The American West (c1835–c1895)</option>
+            <option value="his_paper3">History Paper 3: Weimar and Nazi Germany (1918–39)</option>
+          </optgroup>
+          <optgroup label="Sciences">
+            <option value="physics_8463">GCSE Physics (AQA 8463)</option>
+            <option value="chemistry_8462">GCSE Chemistry (AQA 8462)</option>
+            <option value="biology_8461">GCSE Biology (AQA 8461)</option>
+          </optgroup>
         </select>
       </div>
 
-      <div>
-        <button class="action-btn" onclick="exportProgress()">Export Progress</button>
-        <button class="action-btn" onclick="importProgress()">Import Progress</button>
+      <div class="btn-group">
+        <button class="action-btn" onclick="toggleDarkMode()" id="theme-btn">🌙 Dark</button>
+        <button class="action-btn" onclick="exportProgress()">Export</button>
+        <button class="action-btn" onclick="importProgress()">Import</button>
       </div>
     </div>
 
-    <!-- Overall Progress Dashboard -->
+    <!-- Progress Dashboard -->
     <header class="dashboard">
       <div class="dashboard-header">
-        <h2 id="subject-heading">GCSE Topic Progress</h2>
+        <h2 id="subject-heading">Overall Revision Progress</h2>
         <div>
-          <span id="stats-text" style="font-size: 0.9rem; color: #64748b;">0 of 0 Mastered</span>
+          <span id="stats-text" style="font-size: 0.9rem; color: var(--text-muted);">0 of 0 Mastered</span>
           <span id="stats-pct" style="font-weight: bold; margin-left: 8px; color: var(--green);">0%</span>
         </div>
       </div>
@@ -244,73 +244,425 @@
       </div>
     </header>
 
-    <!-- Main Dynamic Content List -->
+    <!-- Main Content -->
     <main id="tracker-root"></main>
   </div>
 
   <script>
-    // Embedded sample fallback dataset (used if fetching external JSON is pending)
-    const datasets = {
-      chemistry_8462: {
-        title: "GCSE Chemistry (AQA 8462)",
-        sections: [
+    const specifications = {
+      his_paper1: {
+        title: "Edexcel GCSE History Paper 1: Crime and Punishment c1000–present & Whitechapel",
+        structure: [
           {
-            section: "Paper 1: Atomic Structure, Bonding & Quantitative Chemistry",
-            topics: [
+            paper: "Thematic Study: Crime & Punishment",
+            sections: [
               {
-                id: "chem_1.1",
-                code: "4.1.1",
-                title: "A Atoms, Elements & Compounds",
-                papers: [
-                  { label: "Jun 22 P1", url: "./pdfs/AQA-84621H-QP-JUN22.PDF" },
-                  { label: "Nov 20 P1", url: "./pdfs/AQA-84621H-QP-NOV20.PDF" }
+                title: "c1000–c1500: Medieval England",
+                topics: [
+                  { id: "his_1.1", code: "1.1", title: "Nature & Definitions of Crime (Saxon & Norman Law, Wergild, Murdrum)" },
+                  { id: "his_1.2", code: "1.2", title: "Law Enforcement & Policing (Hue and Cry, Tithings, Trial by Ordeal)" },
+                  { id: "his_1.3", code: "1.3", title: "Punishment Methods (Fines, Stocks, Execution, Sanctuary & Benefit of Clergy)" }
                 ]
               },
               {
-                id: "chem_1.2",
-                code: "4.2.1",
-                title: "Chemical Bonding & States of Matter",
-                papers: [
-                  { label: "Jun 24 P1", url: "./pdfs/AQA-84621H-QP-JUN24.PDF" }
-                ]
-              }
-            ]
-          },
-          {
-            section: "Paper 2: Rates, Organic Chemistry & Chemical Analysis",
-            topics: [
-              {
-                id: "chem_2.1",
-                code: "4.7.1",
-                title: "Carbon Compounds & Hydrocarbons",
-                papers: [
-                  { label: "Jun 22 P2", url: "./pdfs/AQA-84622H-QP-JUN22.PDF" },
-                  { label: "Nov 21 P2", url: "./pdfs/AQA-84622H-QP-NOV21.PDF" }
+                title: "c1500–c1700: Early Modern England",
+                topics: [
+                  { id: "his_2.1", code: "2.1", title: "New Crimes (Vagrancy, Witchcraft, Smuggling, Heresy)" },
+                  { id: "his_2.2", code: "2.2", title: "Law Enforcement (Watchmen, Town Constables, Thief-takers)" },
+                  { id: "his_2.3", code: "2.3", title: "Punishments (The Bloody Code, Transportation to America)" }
                 ]
               },
               {
-                id: "chem_2.2",
-                code: "4.8.1",
-                title: "Purity, Formulations & Chromatography",
-                papers: [
-                  { label: "Jun 23 P2", url: "./pdfs/AQA-84622H-QP-JUN23.PDF" }
+                title: "c1700–c1900: 18th and 19th Century Britain",
+                topics: [
+                  { id: "his_3.1", code: "3.1", title: "Changing Nature of Crime (Highway Robbery, Smuggling, Tolpuddle Martyrs)" },
+                  { id: "his_3.2", code: "3.2", title: "Policing Development (Bow Street Runners, Metropolitan Police 1829)" },
+                  { id: "his_3.3", code: "3.3", title: "Punishment Reforms (End of Bloody Code, Prison Reform, Pentonville & Silent System)" }
+                ]
+              },
+              {
+                title: "c1900–present: Modern Britain",
+                topics: [
+                  { id: "his_4.1", code: "4.1", title: "Modern Crimes (Race Crimes, Drug Crimes, Cybercrime, Conscientious Objectors)" },
+                  { id: "his_4.2", code: "4.2", title: "Modern Policing (Specialist Units, Forensic Science, CID, DNA & CCTV)" },
+                  { id: "his_4.3", code: "4.3", title: "Modern Punishments (Abolition of Capital Punishment, Open Prisons, Community Service)" }
+                ]
+              },
+              {
+                title: "Historic Environment: Whitechapel c1870–c1900",
+                topics: [
+                  { id: "his_5.1", code: "5.1", title: "Local Context (Rookeries, Lodging Houses, Immigrant Groups, Social Tension)" },
+                  { id: "his_5.2", code: "5.2", title: "Policing Whitechapel & Jack the Ripper Investigations (H Division, Media Impact)" }
                 ]
               }
             ]
           }
         ]
       },
-      history_8145: {
-        title: "GCSE History (AQA 8145)",
-        sections: [
+      his_paper2a: {
+        title: "Edexcel GCSE History Paper 2A: Early Elizabethan England 1558–88",
+        structure: [
           {
-            section: "Paper 1: Understanding the Modern World",
-            topics: [
+            paper: "Period Study: Elizabethan England",
+            sections: [
               {
-                id: "his_1.1",
-                code: "1.1",
-                title: "Germany and the Growth of Democracy (1890–1914)",
-                papers: []
+                title: "Key Topic 1: Queen, Government & Religion (1558–69)",
+                topics: [
+                  { id: "his_eliz_1.1", code: "1.1", title: "Elizabethan Society, Government & Problems of Legitimacy/Gender" },
+                  { id: "his_eliz_1.2", code: "1.2", title: "The Religious Settlement (1559) & Puritans/Catholics Challenge" },
+                  { id: "his_eliz_1.3", code: "1.3", title: "Mary, Queen of Scots (Arrival in England & Claim to the Throne)" }
+                ]
+              },
+              {
+                title: "Key Topic 2: Challenges to Elizabeth (1569–88)",
+                topics: [
+                  { id: "his_eliz_2.1", code: "2.1", title: "Plots and Revolts (Northern Earls, Ridolfi, Throckmorton, Babington Plots)" },
+                  { id: "his_eliz_2.2", code: "2.2", title: "Walsingham's Network of Spies & Execution of Mary, Queen of Scots (1587)" },
+                  { id: "his_eliz_2.3", code: "2.3", title: "Foreign Relations & Spanish Armada (Causes, Drake, Tilbury, Defeat of Armada)" }
+                ]
+              },
+              {
+                title: "Key Topic 3: Elizabethan Society in the Age of Exploration (1558–88)",
+                topics: [
+                  { id: "his_eliz_3.1", code: "3.1", title: "Education, Leisure, Theatres & Poverty (Causes of Vagrancy, Poor Laws)" },
+                  { id: "his_eliz_3.2", code: "3.2", title: "Exploration, Drake's Circumnavigation & Walter Raleigh's Attempt to Colonise Virginia" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      his_paper2b: {
+        title: "Edexcel GCSE History Paper 2B: The American West c1835–c1895",
+        structure: [
+          {
+            paper: "Period Study: The American West",
+            sections: [
+              {
+                title: "Key Topic 1: Early Settlement of the West (c1835–c1862)",
+                topics: [
+                  { id: "his_aw_1.1", code: "1.1", title: "Plains Indians Life (Social Structure, Buffalo, Horse, Beliefs & Warfare)" },
+                  { id: "his_aw_1.2", code: "1.2", title: "Early Migration (Manifest Destiny, Oregon Trail, Donner Party, Gold Rush 1849)" },
+                  { id: "his_aw_1.3", code: "1.3", title: "Conflict and Tension (Fort Laramie Treaty 1851, Indian Appropriations Act)" }
+                ]
+              },
+              {
+                title: "Key Topic 2: Development of the Plains (c1862–c1876)",
+                topics: [
+                  { id: "his_aw_2.1", code: "2.1", title: "Government Acts (Homestead Act 1862, Pacific Railroad Act, Transcontinental Railroad)" },
+                  { id: "his_aw_2.2", code: "2.2", title: "Cattle Industry (Goodnight-Loving Trail, Abilene, Joseph McCoy, John Iliff)" },
+                  { id: "his_aw_2.3", code: "2.3", title: "Indian Wars (Little Crow's War, Sand Creek Massacre, Red Cloud's War, Fort Laramie Treaty 1868)" }
+                ]
+              },
+              {
+                title: "Key Topic 3: Conflicts and Conquest (c1876–c1895)",
+                topics: [
+                  { id: "his_aw_3.1", code: "3.1", title: "Changes in Farming & Range Wars (Barbed Wire, Windmills, Johnson County War)" },
+                  { id: "his_aw_3.2", code: "3.2", title: "Conflict with Plains Indians (Battle of Little Big Horn 1876, Wounded Knee 1890)" },
+                  { id: "his_aw_3.3", code: "3.3", title: "Extermination of Buffalo & Reservation System (Dawes Act 1887)" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      his_paper3: {
+        title: "Edexcel GCSE History Paper 3: Weimar and Nazi Germany 1918–39",
+        structure: [
+          {
+            paper: "Modern Depth Study: Weimar & Nazi Germany",
+            sections: [
+              {
+                title: "Key Topic 1: The Weimar Republic (1918–29)",
+                topics: [
+                  { id: "his_ger_1.1", code: "1.1", title: "Origins of the Republic (Armistice, Revolution, Constitution, Strengths & Weaknesses)" },
+                  { id: "his_ger_1.2", code: "1.2", title: "Early Challenges (Treaty of Versailles, Spartacists, Kapp Putsch, French in Ruhr, Hyperinflation)" },
+                  { id: "his_ger_1.3", code: "1.3", title: "Recovery under Stresemann (Rentenmark, Dawes/Young Plans, Locarno, League of Nations)" },
+                  { id: "his_ger_1.4", code: "1.4", title: "Changes in Society (Standard of Living, Women's Status, Cultural Flourishing in Golden Age)" }
+                ]
+              },
+              {
+                title: "Key Topic 2: Hitler's Rise to Power (1919–33)",
+                topics: [
+                  { id: "his_ger_2.1", code: "2.1", title: "Early Nazi Party (25 Point Programme, SA, Munich Putsch 1923 & Consequences)" },
+                  { id: "his_ger_2.2", code: "2.2", title: "Lean Years (1924–29) & Reorganisation of the Party" },
+                  { id: "his_ger_2.3", code: "2.3", title: "Growth in Support (Great Depression, Unemployment, Propaganda, Role of SA)" },
+                  { id: "his_ger_2.4", code: "2.4", title: "Hitler Becomes Chancellor (Political Developments & Papen/Schleicher Intrigue)" }
+                ]
+              },
+              {
+                title: "Key Topic 3: Nazi Control and Dictatorship (1933–39)",
+                topics: [
+                  { id: "his_ger_3.1", code: "3.1", title: "Creation of Dictatorship (Reichstag Fire, Enabling Act, Night of Long Knives, Death of Hindenburg)" },
+                  { id: "his_ger_3.2", code: "3.2", title: "Police State (SS, SD, Gestapo, Concentration Camps, Control of Legal System)" },
+                  { id: "his_ger_3.3", code: "3.3", title: "Control of Information & Culture (Goebbels, Censorship, Rallies, Radio, Art)" },
+                  { id: "his_ger_3.4", code: "3.4", title: "Opposition & Resistance (Churches, Pastor Niemöller, Edelweiss Pirates, Swing Youth)" }
+                ]
+              },
+              {
+                title: "Key Topic 4: Life in Nazi Germany (1933–39)",
+                topics: [
+                  { id: "his_ger_4.1", code: "4.1", title: "Nazi Policies Towards Women (Marriage, Children, Employment, Organisations)" },
+                  { id: "his_ger_4.2", code: "4.2", title: "Nazi Policies Towards Youth (Education, School Curriculum, Hitler Youth, BDM)" },
+                  { id: "his_ger_4.3", code: "4.3", title: "Employment & Living Standards (RAD, Autobahns, Rearmament, DAF, KdF, Beauty of Labour)" },
+                  { id: "his_ger_4.4", code: "4.4", title: "Persecution of Minorities (Racial Theories, Slavs, Romani, Nuremberg Laws, Kristallnacht)" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      physics_8463: {
+        title: "AQA GCSE Physics (8463)",
+        structure: [
+          {
+            paper: "Paper 1 (Topics 4.1 – 4.4)",
+            sections: [
+              {
+                title: "4.1 Energy",
+                topics: [
+                  { id: "phy_4.1.1", code: "4.1.1", title: "Energy Changes in a System & Conservation of Energy" },
+                  { id: "phy_4.1.2", code: "4.1.2", title: "Conservation & Dissipation of Energy" },
+                  { id: "phy_4.1.3", code: "4.1.3", title: "National & Global Energy Resources" }
+                ]
+              },
+              {
+                title: "4.2 Electricity",
+                topics: [
+                  { id: "phy_4.2.1", code: "4.2.1", title: "Current, Potential Difference & Resistance" },
+                  { id: "phy_4.2.2", code: "4.2.2", title: "Series & Parallel Circuits" },
+                  { id: "phy_4.2.3", code: "4.2.3", title: "Domestic Uses & Safety (AC/DC, Mains, Plugs)" },
+                  { id: "phy_4.2.4", code: "4.2.4", title: "Energy Transfers in Electrical Appliances & Power" },
+                  { id: "phy_4.2.5", code: "4.2.5", title: "Static Electricity (Physics Only)" }
+                ]
+              },
+              {
+                title: "4.3 Particle Model of Matter",
+                topics: [
+                  { id: "phy_4.3.1", code: "4.3.1", title: "Changes of State & the Particle Model" },
+                  { id: "phy_4.3.2", code: "4.3.2", title: "Internal Energy & Energy Transfers (SHC & SLH)" },
+                  { id: "phy_4.3.3", code: "4.3.3", title: "Particle Model and Pressure in Gases" }
+                ]
+              },
+              {
+                title: "4.4 Atomic Structure",
+                topics: [
+                  { id: "phy_4.4.1", code: "4.4.1", title: "Atoms & Isotopes (Models of the Atom)" },
+                  { id: "phy_4.4.2", code: "4.4.2", title: "Atoms & Nuclear Radiation (Alpha, Beta, Gamma, Half-life)" },
+                  { id: "phy_4.4.3", code: "4.4.3", title: "Hazards & Uses of Radioactive Emissions (Physics Only)" },
+                  { id: "phy_4.4.4", code: "4.4.4", title: "Nuclear Fission & Fusion (Physics Only)" }
+                ]
+              }
+            ]
+          },
+          {
+            paper: "Paper 2 (Topics 4.5 – 4.8)",
+            sections: [
+              {
+                title: "4.5 Forces",
+                topics: [
+                  { id: "phy_4.5.1", code: "4.5.1", title: "Forces and Their Interactions (Scalars, Vectors, Contact Forces)" },
+                  { id: "phy_4.5.2", code: "4.5.2", title: "Work Done and Energy Transfer" },
+                  { id: "phy_4.5.3", code: "4.5.3", title: "Forces and Elasticity" },
+                  { id: "phy_4.5.4", code: "4.5.4", title: "Moments, Levers and Gears (Physics Only)" },
+                  { id: "phy_4.5.5", code: "4.5.5", title: "Pressure and Pressure Differences in Fluids (Physics Only)" },
+                  { id: "phy_4.5.6", code: "4.5.6", title: "Forces and Motion (Speed, Velocity, Acceleration, Distance-Time)" },
+                  { id: "phy_4.5.7", code: "4.5.7", title: "Momentum (HT / Physics Only)" }
+                ]
+              },
+              {
+                title: "4.6 Waves",
+                topics: [
+                  { id: "phy_4.6.1", code: "4.6.1", title: "Waves in Air, Fluids and Solids (Transverse & Longitudinal)" },
+                  { id: "phy_4.6.2", code: "4.6.2", title: "Electromagnetic Waves (Spectrum & Properties)" },
+                  { id: "phy_4.6.3", code: "4.6.3", title: "Black Body Radiation (Physics Only)" }
+                ]
+              },
+              {
+                title: "4.7 Magnetism and Electromagnetism",
+                topics: [
+                  { id: "phy_4.7.1", code: "4.7.1", title: "Permanent & Induced Magnetism, Magnetic Fields" },
+                  { id: "phy_4.7.2", code: "4.7.2", title: "Motor Effect & Electromagnetism" },
+                  { id: "phy_4.7.3", code: "4.7.3", title: "Induced Potential, Transformers & National Grid (Physics Only)" }
+                ]
+              },
+              {
+                title: "4.8 Space Physics (Physics Only)",
+                topics: [
+                  { id: "phy_4.8.1", code: "4.8.1", title: "Solar System, Stability of Orbital Motions & Life Cycle of Stars" },
+                  { id: "phy_4.8.2", code: "4.8.2", title: "Red-shift and the Expanding Universe" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      chemistry_8462: {
+        title: "AQA GCSE Chemistry (8462)",
+        structure: [
+          {
+            paper: "Paper 1 (Topics 4.1 – 4.5)",
+            sections: [
+              {
+                title: "4.1 Atomic Structure and the Periodic Table",
+                topics: [
+                  { id: "chem_4.1.1", code: "4.1.1", title: "A Simple Model of the Atom, Symbols, Relative Atomic Mass & Isotopes" },
+                  { id: "chem_4.1.2", code: "4.1.2", title: "The Periodic Table" },
+                  { id: "chem_4.1.3", code: "4.1.3", title: "Properties of Transition Metals" }
+                ]
+              },
+              {
+                title: "4.2 Bonding, Structure, and Properties of Matter",
+                topics: [
+                  { id: "chem_4.2.1", code: "4.2.1", title: "Chemical Bonds: Ionic, Covalent & Metallic" },
+                  { id: "chem_4.2.2", code: "4.2.2", title: "How Bonding & Structure Relate to Properties" },
+                  { id: "chem_4.2.3", code: "4.2.3", title: "Structure & Bonding of Carbon (Diamond, Graphite, Fullerenes)" },
+                  { id: "chem_4.2.4", code: "4.2.4", title: "Bulk & Surface Properties of Matter Including Nanoparticles" }
+                ]
+              },
+              {
+                title: "4.3 Quantitative Chemistry",
+                topics: [
+                  { id: "chem_4.3.1", code: "4.3.1", title: "Chemical Measurements, Conservation of Mass & Quantitative Interpretation" },
+                  { id: "chem_4.3.2", code: "4.3.2", title: "Amounts of Substances in Equations (Moles)" },
+                  { id: "chem_4.3.3", code: "4.3.3", title: "Yield and Atom Economy of Chemical Reactions" },
+                  { id: "chem_4.3.4", code: "4.3.4", title: "Using Concentrations of Solutions in mol/dm³" },
+                  { id: "chem_4.3.5", code: "4.3.5", title: "Amounts of Substances in Equations Involving Gases" }
+                ]
+              },
+              {
+                title: "4.4 Chemical Changes",
+                topics: [
+                  { id: "chem_4.4.1", code: "4.4.1", title: "Reactivity of Metals" },
+                  { id: "chem_4.4.2", code: "4.4.2", title: "Reactions of Acids" },
+                  { id: "chem_4.4.3", code: "4.4.3", title: "Electrolysis" }
+                ]
+              },
+              {
+                title: "4.5 Energy Changes",
+                topics: [
+                  { id: "chem_4.5.1", code: "4.5.1", title: "Exothermic and Endothermic Reactions" },
+                  { id: "chem_4.5.2", code: "4.5.2", title: "Chemical Cells and Fuel Cells" }
+                ]
+              }
+            ]
+          },
+          {
+            paper: "Paper 2 (Topics 4.6 – 4.10)",
+            sections: [
+              {
+                title: "4.6 The Rate and Extent of Chemical Change",
+                topics: [
+                  { id: "chem_4.6.1", code: "4.6.1", title: "Rate of Reaction" },
+                  { id: "chem_4.6.2", code: "4.6.2", title: "Reversible Reactions and Dynamic Equilibrium" }
+                ]
+              },
+              {
+                title: "4.7 Organic Chemistry",
+                topics: [
+                  { id: "chem_4.7.1", code: "4.7.1", title: "Carbon Compounds as Fuels and Feedstock" },
+                  { id: "chem_4.7.2", code: "4.7.2", title: "Reactions of Alkenes and Alcohols" },
+                  { id: "chem_4.7.3", code: "4.7.3", title: "Synthetic and Natural Polymers" }
+                ]
+              },
+              {
+                title: "4.8 Chemical Analysis",
+                topics: [
+                  { id: "chem_4.8.1", code: "4.8.1", title: "Purity, Formulations and Chromatography" },
+                  { id: "chem_4.8.2", code: "4.8.2", title: "Identification of Common Gases" },
+                  { id: "chem_4.8.3", code: "4.8.3", title: "Identification of Ions by Chemical & Spectroscopic Means" }
+                ]
+              },
+              {
+                title: "4.9 Chemistry of the Atmosphere",
+                topics: [
+                  { id: "chem_4.9.1", code: "4.9.1", title: "The Composition and Evolution of the Earth's Atmosphere" },
+                  { id: "chem_4.9.2", code: "4.9.2", title: "Carbon Footprint & Global Climate Change" },
+                  { id: "chem_4.9.3", code: "4.9.3", title: "Common Atmospheric Pollutants and Their Sources" }
+                ]
+              },
+              {
+                title: "4.10 Using Resources",
+                topics: [
+                  { id: "chem_4.10.1", code: "4.10.1", title: "Using the Earth's Resources and Obtaining Potable Water" },
+                  { id: "chem_4.10.2", code: "4.10.2", title: "Life Cycle Assessment and Recycling" },
+                  { id: "chem_4.10.3", code: "4.10.3", title: "Using Materials (Corrosion, Alloys, Ceramics, Polymers, Composites)" },
+                  { id: "chem_4.10.4", code: "4.10.4", title: "The Haber Process and NPK Fertilisers" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      biology_8461: {
+        title: "AQA GCSE Biology (8461)",
+        structure: [
+          {
+            paper: "Paper 1 (Topics 4.1 – 4.4)",
+            sections: [
+              {
+                title: "4.1 Cell Biology",
+                topics: [
+                  { id: "bio_4.1.1", code: "4.1.1", title: "Cell Structure & Microscopy" },
+                  { id: "bio_4.1.2", code: "4.1.2", title: "Cell Division (Chromosomes, Mitosis & Stem Cells)" },
+                  { id: "bio_4.1.3", code: "4.1.3", title: "Transport in Cells (Diffusion, Osmosis & Active Transport)" }
+                ]
+              },
+              {
+                title: "4.2 Organisation",
+                topics: [
+                  { id: "bio_4.2.1", code: "4.2.1", title: "Principles of Organisation" },
+                  { id: "bio_4.2.2", code: "4.2.2", title: "Animal Tissues, Organs & Organ Systems" },
+                  { id: "bio_4.2.3", code: "4.2.3", title: "Plant Tissues, Organs & Systems" }
+                ]
+              },
+              {
+                title: "4.3 Infection and Response",
+                topics: [
+                  { id: "bio_4.3.1", code: "4.3.1", title: "Communicable Diseases" },
+                  { id: "bio_4.3.2", code: "4.3.2", title: "Monoclonal Antibodies" },
+                  { id: "bio_4.3.3", code: "4.3.3", title: "Plant Disease" }
+                ]
+              },
+              {
+                title: "4.4 Bioenergetics",
+                topics: [
+                  { id: "bio_4.4.1", code: "4.4.1", title: "Photosynthesis" },
+                  { id: "bio_4.4.2", code: "4.4.2", title: "Respiration" }
+                ]
+              }
+            ]
+          },
+          {
+            paper: "Paper 2 (Topics 4.5 – 4.7)",
+            sections: [
+              {
+                title: "4.5 Homeostasis and Response",
+                topics: [
+                  { id: "bio_4.5.1", code: "4.5.1", title: "Homeostasis" },
+                  { id: "bio_4.5.2", code: "4.5.2", title: "Human Nervous System" },
+                  { id: "bio_4.5.3", code: "4.5.3", title: "Hormonal Coordination in Humans" },
+                  { id: "bio_4.5.4", code: "4.5.4", title: "Plant Hormones" }
+                ]
+              },
+              {
+                title: "4.6 Inheritance, Variation and Evolution",
+                topics: [
+                  { id: "bio_4.6.1", code: "4.6.1", title: "Reproduction (Sexual vs Asexual, Meiosis, DNA)" },
+                  { id: "bio_4.6.2", code: "4.6.2", title: "Variation and Evolution" },
+                  { id: "bio_4.6.3", code: "4.6.3", title: "Development of Understanding of Genetics & Evolution" },
+                  { id: "bio_4.6.4", code: "4.6.4", title: "Classification of Living Organisms" }
+                ]
+              },
+              {
+                title: "4.7 Ecology",
+                topics: [
+                  { id: "bio_4.7.1", code: "4.7.1", title: "Adaptations, Interdependence & Competition" },
+                  { id: "bio_4.7.2", code: "4.7.2", title: "Organization of an Ecosystem" },
+                  { id: "bio_4.7.3", code: "4.7.3", title: "Biodiversity & Ecosystem Management" },
+                  { id: "bio_4.7.4", code: "4.7.4", title: "Trophic Levels in Ecosystems" },
+                  { id: "bio_4.7.5", code: "4.7.5", title: "Food Production" }
+                ]
               }
             ]
           }
@@ -318,13 +670,24 @@
       }
     };
 
-    let currentSubjectKey = "chemistry_8462";
-    let userState = JSON.parse(localStorage.getItem('gcse_rag_state')) || {};
+    let currentSubject = "his_paper1";
+    let userState = JSON.parse(localStorage.getItem('gcse_rag_state_v4')) || {};
 
-    // Render topics for selected subject
+    // Initialize Theme
+    const currentTheme = localStorage.getItem('gcse_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    document.getElementById('theme-btn').innerText = currentTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+
+    function toggleDarkMode() {
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('gcse_theme', theme);
+      document.getElementById('theme-btn').innerText = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+    }
+
     function renderApp() {
-      const subjectData = datasets[currentSubjectKey];
-      document.getElementById('subject-heading').innerText = subjectData.title;
+      const spec = specifications[currentSubject];
+      document.getElementById('subject-heading').innerText = spec.title;
 
       const root = document.getElementById('tracker-root');
       root.innerHTML = '';
@@ -332,82 +695,73 @@
       let totalTopics = 0;
       let greenCount = 0;
 
-      subjectData.sections.forEach(sec => {
-        const secTitle = document.createElement('h3');
-        secTitle.className = 'section-title';
-        secTitle.innerText = sec.section;
-        root.appendChild(secTitle);
+      spec.structure.forEach(paperGroup => {
+        const paperHeading = document.createElement('h2');
+        paperHeading.className = 'paper-header';
+        paperHeading.innerText = paperGroup.paper;
+        root.appendChild(paperHeading);
 
-        sec.topics.forEach(topic => {
-          totalTopics++;
-          const rating = userState[topic.id] || 'U';
-          if (rating === 'G') greenCount++;
+        paperGroup.sections.forEach(sec => {
+          const secTitle = document.createElement('h3');
+          secTitle.className = 'section-title';
+          secTitle.innerText = sec.title;
+          root.appendChild(secTitle);
 
-          const card = document.createElement('div');
-          card.className = 'topic-card';
+          sec.topics.forEach(topic => {
+            totalTopics++;
+            const rating = userState[topic.id] || 'U';
+            if (rating === 'G') greenCount++;
 
-          // Build PDF Chips
-          let paperChipsHtml = '';
-          if (topic.papers && topic.papers.length > 0) {
-            paperChipsHtml = '<div class="paper-links">' + 
-              topic.papers.map(p => `<a href="${p.url}" target="_blank" class="paper-chip">📄 ${p.label}</a>`).join('') +
-              '</div>';
-          }
+            const card = document.createElement('div');
+            card.className = 'topic-card';
 
-          card.innerHTML = `
-            <div class="topic-info">
-              <div>
+            card.innerHTML = `
+              <div class="topic-info">
                 <span class="topic-code">${topic.code}</span>
                 <span class="topic-title">${topic.title}</span>
               </div>
-              ${paperChipsHtml}
-            </div>
-            <div class="rag-group">
-              <button class="rag-btn btn-r ${rating === 'R' ? 'active' : ''}" onclick="setRating('${topic.id}', 'R')">R</button>
-              <button class="rag-btn btn-a ${rating === 'A' ? 'active' : ''}" onclick="setRating('${topic.id}', 'A')">A</button>
-              <button class="rag-btn btn-g ${rating === 'G' ? 'active' : ''}" onclick="setRating('${topic.id}', 'G')">G</button>
-            </div>
-          `;
-          root.appendChild(card);
+              <div class="rag-group">
+                <button class="rag-btn btn-r ${rating === 'R' ? 'active' : ''}" onclick="setRating('${topic.id}', 'R')">R</button>
+                <button class="rag-btn btn-a ${rating === 'A' ? 'active' : ''}" onclick="setRating('${topic.id}', 'A')">A</button>
+                <button class="rag-btn btn-g ${rating === 'G' ? 'active' : ''}" onclick="setRating('${topic.id}', 'G')">G</button>
+              </div>
+            `;
+            root.appendChild(card);
+          });
         });
       });
 
-      // Update Header Progress
       const pct = totalTopics > 0 ? Math.round((greenCount / totalTopics) * 100) : 0;
       document.getElementById('stats-text').innerText = `${greenCount} of ${totalTopics} Mastered`;
       document.getElementById('stats-pct').innerText = `${pct}%`;
       document.getElementById('progress-fill').style.width = `${pct}%`;
     }
 
-    // Set or toggle RAG status
     function setRating(topicId, rating) {
       if (userState[topicId] === rating) {
         delete userState[topicId];
       } else {
         userState[topicId] = rating;
       }
-      localStorage.setItem('gcse_rag_state', JSON.stringify(userState));
+      localStorage.setItem('gcse_rag_state_v4', JSON.stringify(userState));
       renderApp();
     }
 
-    // Change subject selection
     function changeSubject(key) {
-      currentSubjectKey = key;
+      currentSubject = key;
       renderApp();
     }
 
-    // Export progress to JSON file
     function exportProgress() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(userState, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "gcse_progress_backup.json");
+      downloadAnchor.setAttribute("download", "gcse_all_subjects_progress.json");
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
     }
 
-    // Import progress from JSON file
     function importProgress() {
       const input = document.createElement('input');
       input.type = 'file';
@@ -418,9 +772,8 @@
         reader.readAsText(file, 'UTF-8');
         reader.onload = readerEvent => {
           try {
-            const importedState = JSON.parse(readerEvent.target.result);
-            userState = importedState;
-            localStorage.setItem('gcse_rag_state', JSON.stringify(userState));
+            userState = JSON.parse(readerEvent.target.result);
+            localStorage.setItem('gcse_rag_state_v4', JSON.stringify(userState));
             renderApp();
             alert('Progress imported successfully!');
           } catch (err) {
@@ -431,7 +784,6 @@
       input.click();
     }
 
-    // Initial load
     renderApp();
   </script>
 </body>
