@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GCSE & iGCSE Topic Tracker</title>
+  
+  <!-- PWA Manifest & iOS Support -->
   <link rel="manifest" href="./manifest.json" />
   <meta name="theme-color" content="#2563eb" />
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3429/3429149.png" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GCSE Topic & Revision Tracker</title>
+
   <style>
     :root {
       --bg: #f8fafc;
@@ -212,6 +215,10 @@
       <div class="select-wrapper">
         <label for="subject-select">Subject:</label>
         <select id="subject-select" onchange="changeSubject(this.value)">
+          <optgroup label="Mathematics">
+            <option value="imaths_1h">iGCSE Maths Higher: Paper 1H (Edexcel 4MA1)</option>
+            <option value="imaths_2h">iGCSE Maths Higher: Paper 2H (Edexcel 4MA1)</option>
+          </optgroup>
           <optgroup label="History">
             <option value="his_paper1">History Paper 1: Crime and Punishment (c1000–present)</option>
             <option value="his_paper2a">History Paper 2A: Early Elizabethan England (1558–88)</option>
@@ -253,6 +260,89 @@
 
   <script>
     const specifications = {
+      imaths_1h: {
+        title: "Edexcel iGCSE Mathematics A (4MA1) Higher Tier - Paper 1H",
+        structure: [
+          {
+            paper: "Paper 1H Core Topics",
+            sections: [
+              {
+                title: "1. Numbers and the Number System",
+                topics: [
+                  { id: "imath_1h_1.1", code: "1.1", title: "Integers, Directed Numbers, HCF & LCM, Prime Factorisation" },
+                  { id: "imath_1h_1.2", code: "1.2", title: "Fractions & Mixed Numbers (Arithmetic & Equivalents)" },
+                  { id: "imath_1h_1.3", code: "1.3", title: "Decimals, Recurring Decimals to Fractions" },
+                  { id: "imath_1h_1.4", code: "1.4", title: "Powers, Roots, Fractional & Negative Indices" },
+                  { id: "imath_1h_1.5", code: "1.5", title: "Set Language, Notation & Venn Diagrams" },
+                  { id: "imath_1h_1.6", code: "1.6", title: "Percentages (Compound Interest, Reverse Percentages)" },
+                  { id: "imath_1h_1.7", code: "1.7", title: "Ratio, Direct & Inverse Proportion" },
+                  { id: "imath_1h_1.8", code: "1.8", title: "Degree of Accuracy, Upper & Lower Bounds" },
+                  { id: "imath_1h_1.9", code: "1.9", title: "Standard Form (A x 10^n)" },
+                  { id: "imath_1h_1.10", code: "1.10", title: "Surds (Simplifying, Rationalising Denominators)" }
+                ]
+              },
+              {
+                title: "2. Equations, Formulae and Identities",
+                topics: [
+                  { id: "imath_1h_2.1", code: "2.1", title: "Algebraic Manipulation (Expansion, Factorisation, Algebraic Fractions)" },
+                  { id: "imath_1h_2.2", code: "2.2", title: "Linear Equations & Simultaneous Equations (Linear/Non-linear)" },
+                  { id: "imath_1h_2.3", code: "2.3", title: "Quadratic Equations (Factorising, Quadratic Formula, Completing Square)" },
+                  { id: "imath_1h_2.4", code: "2.4", title: "Inequalities (Linear, Quadratic, Shading Regions)" },
+                  { id: "imath_1h_2.5", code: "2.5", title: "Formulae (Changing Subject, Rearranging Complex Formulae)" }
+                ]
+              },
+              {
+                title: "3. Sequences, Functions and Graphs",
+                topics: [
+                  { id: "imath_1h_3.1", code: "3.1", title: "Sequences (nth Term, Arithmetic & Quadratic Sequences)" },
+                  { id: "imath_1h_3.2", code: "3.2", title: "Function Notation, Composite & Inverse Functions" },
+                  { id: "imath_1h_3.3", code: "3.3", title: "Graphs of Linear Equations (y = mx + c, Perpendicular Lines)" },
+                  { id: "imath_1h_3.4", code: "3.4", title: "Graphs of Quadratic, Cubic, Reciprocal & Exponential Functions" },
+                  { id: "imath_1h_3.5", code: "3.5", title: "Calculus (Differentiation, Turning Points, Velocity/Acceleration)" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      imaths_2h: {
+        title: "Edexcel iGCSE Mathematics A (4MA1) Higher Tier - Paper 2H",
+        structure: [
+          {
+            paper: "Paper 2H Core Topics",
+            sections: [
+              {
+                title: "4. Geometry and Trigonometry",
+                topics: [
+                  { id: "imath_2h_4.1", code: "4.1", title: "Angles, Lines, Polygons & Circle Theorems" },
+                  { id: "imath_2h_4.2", code: "4.2", title: "Perimeter, Area & Volume (Prisms, Pyramids, Spheres, Cones)" },
+                  { id: "imath_2h_4.3", code: "4.3", title: "Pythagoras' Theorem & Right-Angled Trigonometry" },
+                  { id: "imath_2h_4.4", code: "4.4", title: "Advanced Trigonometry (Sine Rule, Cosine Rule, Area = 1/2 ab sin C)" },
+                  { id: "imath_2h_4.5", code: "4.5", title: "3D Pythagoras & 3D Trigonometry" },
+                  { id: "imath_2h_4.6", code: "4.6", title: "Similar Shapes & Areas/Volumes of Similar Solids" },
+                  { id: "imath_2h_4.7", code: "4.7", title: "Bearings, Scale Drawings & Constructions" }
+                ]
+              },
+              {
+                title: "5. Vectors and Transformation Geometry",
+                topics: [
+                  { id: "imath_2h_5.1", code: "5.1", title: "Transformations (Reflection, Rotation, Translation, Enlargement)" },
+                  { id: "imath_2h_5.2", code: "5.2", title: "Vector Geometry & Proofs (Collinear Points, Parallel Vectors)" }
+                ]
+              },
+              {
+                title: "6. Statistics and Probability",
+                topics: [
+                  { id: "imath_2h_6.1", code: "6.1", title: "Averages (Mean, Median, Mode) & Grouped Frequency Tables" },
+                  { id: "imath_2h_6.2", code: "6.2", title: "Cumulative Frequency Curves, Quartiles & Interquartile Range" },
+                  { id: "imath_2h_6.3", code: "6.3", title: "Histograms with Unequal Class Widths (Frequency Density)" },
+                  { id: "imath_2h_6.4", code: "6.4", title: "Probability (Single & Combined Events, Tree Diagrams, Conditional Probability)" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       his_paper1: {
         title: "Edexcel GCSE History Paper 1: Crime and Punishment c1000–present & Whitechapel",
         structure: [
@@ -673,8 +763,8 @@
       }
     };
 
-    let currentSubject = "his_paper1";
-    let userState = JSON.parse(localStorage.getItem('gcse_rag_state_v4')) || {};
+    let currentSubject = "imaths_1h";
+    let userState = JSON.parse(localStorage.getItem('gcse_rag_state_v5')) || {};
 
     // Initialize Theme
     const currentTheme = localStorage.getItem('gcse_theme') || 'light';
@@ -746,7 +836,7 @@
       } else {
         userState[topicId] = rating;
       }
-      localStorage.setItem('gcse_rag_state_v4', JSON.stringify(userState));
+      localStorage.setItem('gcse_rag_state_v5', JSON.stringify(userState));
       renderApp();
     }
 
@@ -776,7 +866,7 @@
         reader.onload = readerEvent => {
           try {
             userState = JSON.parse(readerEvent.target.result);
-            localStorage.setItem('gcse_rag_state_v4', JSON.stringify(userState));
+            localStorage.setItem('gcse_rag_state_v5', JSON.stringify(userState));
             renderApp();
             alert('Progress imported successfully!');
           } catch (err) {
@@ -789,14 +879,16 @@
 
     renderApp();
   </script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('PWA Service Worker registered successfully.'))
-        .catch(err => console.log('Service Worker registration failed:', err));
-    });
-  }
-</script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('PWA Service Worker registered successfully.'))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
