@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- HTTP Cache-Control Meta Tags (Forces browser to check GitHub each load) -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>GCSE & iGCSE Topic Tracker</title>
   
   <!-- PWA Manifest & iOS Support -->
@@ -208,6 +211,14 @@
     .btn-r { background: var(--red); color: white; }
     .btn-a { background: var(--amber); color: white; }
     .btn-g { background: var(--green); color: white; }
+    
+    .app-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 40px;
+      padding-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -259,6 +270,11 @@
 
     <!-- Main Content -->
     <main id="tracker-root"></main>
+
+    <!-- Footer Version Stamp -->
+    <footer class="app-footer">
+      GCSE Topic Tracker &bull; <span id="app-version">v1.1</span>
+    </footer>
   </div>
 
   <script>
@@ -770,7 +786,7 @@
     let userState = JSON.parse(localStorage.getItem('gcse_rag_state_v5')) || {};
 
     // Initialize Theme
-    const currentTheme = localStorage.getItem('gcse_theme') || 'light';
+    const currentTheme = localStorage.getItem('gcse_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     document.getElementById('theme-btn').innerText = currentTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
 
@@ -883,19 +899,19 @@
     renderApp();
   </script>
 
-  <!-- PWA Service Worker Registration -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => {
-          // Force the browser to check GitHub for an updated sw.js immediately
-          reg.update();
-          console.log('PWA Service Worker registered successfully.');
-        })
-        .catch(err => console.log('Service Worker registration failed:', err));
-    });
-  }
-</script>
+  <!-- PWA Service Worker Registration with Auto-Update Check -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => {
+            // Force browser to check GitHub for updated sw.js immediately
+            reg.update();
+            console.log('PWA Service Worker registered successfully.');
+          })
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
